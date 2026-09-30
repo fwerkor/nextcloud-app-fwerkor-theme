@@ -5,7 +5,7 @@
   <name>FWERKOR Theme</name>
   <summary>FWERKOR visual styling for Nextcloud without replacing core page templates.</summary>
   <description>Applies FWERKOR colors, typography, surfaces, controls, and login styling through Nextcloud's normal app stylesheet mechanism. It intentionally keeps the native Nextcloud DOM structure and application behavior intact.</description>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <licence>mit</licence>
   <author>FWERKOR</author>
   <namespace>FwerkorTheme</namespace>
