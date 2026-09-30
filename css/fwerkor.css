@@ -38,6 +38,8 @@ html body {
 	--color-background-dark: var(--fw-soft);
 	--color-background-darker: #e7edf3;
 	--color-background-plain: var(--fw-surface);
+	--color-background-plain-text: var(--fw-text);
+	--background-image-invert-if-bright: invert(100%);
 	--color-border: var(--fw-border);
 	--color-border-dark: var(--fw-border-strong);
 	--color-border-maxcontrast: var(--fw-border-strong);
@@ -86,6 +88,9 @@ html body[data-themes*="dark"] {
 
 	--color-main-background: var(--fw-bg);
 	--color-main-background-translucent: rgba(17, 19, 24, 0.92);
+	--color-background-plain: var(--fw-surface);
+	--color-background-plain-text: var(--fw-text);
+	--background-image-invert-if-bright: no;
 	--color-background-darker: #171b20;
 	--color-primary-element-light: #203553;
 	--color-primary-element-light-hover: #29466d;
