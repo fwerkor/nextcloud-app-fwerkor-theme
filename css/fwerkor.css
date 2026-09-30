@@ -166,6 +166,18 @@ html body select {
  * ---------------------------------------------------------------------- */
 
 /*
+ * Header actions are toolbar controls, not cards. Keep the full click target
+ * while letting the icons sit directly on the header surface. Native button
+ * hover/focus states still provide interaction feedback.
+ */
+#header .header-menu {
+	background: transparent !important;
+	border-color: transparent !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+}
+
+/*
  * Nextcloud 35 intentionally makes the mobile unified-search trigger only
  * --default-clickable-area tall, while NcHeaderMenu uses a large header button.
  * Because FWERKOR gives these header controls visible card surfaces, the
