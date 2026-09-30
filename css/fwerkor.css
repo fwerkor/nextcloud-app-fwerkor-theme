@@ -121,6 +121,16 @@ html body select {
 	-webkit-backdrop-filter: blur(18px) saturate(1.15);
 }
 
+#header:not(.header-guest) {
+	/*
+	 * Unified search mounts a fixed mobile sheet inside the header. A filtered
+	 * ancestor becomes its containing block on Chromium/WebKit, making the sheet
+	 * appear missing while the input still receives focus.
+	 */
+	backdrop-filter: none;
+	-webkit-backdrop-filter: none;
+}
+
 #content,
 #content-vue,
 .content,
@@ -147,6 +157,97 @@ html body select {
 
 .app-sidebar {
 	box-shadow: -1px 0 0 var(--fw-border);
+}
+
+
+
+/* -------------------------------------------------------------------------
+ * Header menus, unified search, and notifications
+ * ---------------------------------------------------------------------- */
+
+/*
+ * Nextcloud 35 intentionally makes the mobile unified-search trigger only
+ * --default-clickable-area tall, while NcHeaderMenu uses a large header button.
+ * Because FWERKOR gives these header controls visible card surfaces, the
+ * difference becomes obvious. Match the search trigger to the standard header
+ * height without altering the component markup.
+ */
+@media (max-width: 512px) {
+	#header .unified-search-input--mobile .header-menu {
+		height: var(--header-height) !important;
+	}
+
+	#header .unified-search-input--mobile .header-menu__trigger {
+		--button-size: var(--header-height) !important;
+		width: var(--header-height) !important;
+		min-width: var(--header-height) !important;
+		height: var(--header-height) !important;
+		min-height: var(--header-height) !important;
+	}
+
+	/*
+	 * Keep the mobile search sheet viewport-relative and fully opaque. This also
+	 * protects it from header layout/stacking changes in third-party apps.
+	 */
+	#header .unified-search-modal-root {
+		position: fixed !important;
+		inset-block-start: var(--header-height) !important;
+		inset-inline: 0 !important;
+		inset-block-end: 0 !important;
+		margin-block-start: 0 !important;
+	}
+
+	#header .unified-search-modal__container {
+		width: 100% !important;
+		max-width: none !important;
+		height: 100% !important;
+		max-height: none !important;
+		background-color: var(--fw-surface) !important;
+		color: var(--fw-text) !important;
+		border-radius: 0 !important;
+		opacity: 1 !important;
+	}
+
+	#header .unified-search-modal__mobile-input {
+		display: flex !important;
+		width: 100% !important;
+		min-width: 0 !important;
+	}
+
+	#header .unified-search-modal__mobile-input .input-field {
+		display: flex !important;
+		flex: 1 1 auto !important;
+		min-width: 0 !important;
+		background-color: var(--fw-surface) !important;
+		color: var(--fw-text) !important;
+		opacity: 1 !important;
+	}
+
+	#header .unified-search-modal__mobile-input input[type="search"] {
+		visibility: visible !important;
+		display: block !important;
+		opacity: 1 !important;
+		color: var(--fw-text) !important;
+		background-color: var(--fw-surface) !important;
+	}
+}
+
+/*
+ * Notifications are information-dense; a translucent glass surface hurts
+ * readability over the dashboard. Use an opaque FWERKOR surface while keeping
+ * the native notification list and interactions untouched.
+ */
+#notifications .header-menu__wrapper,
+#notifications .header-menu__content {
+	background-color: var(--fw-surface) !important;
+	opacity: 1 !important;
+}
+
+#notifications .header-menu__wrapper {
+	border: 1px solid var(--fw-border);
+	box-shadow: var(--fw-shadow-raised);
+	backdrop-filter: none !important;
+	-webkit-backdrop-filter: none !important;
 }
 
 /* -------------------------------------------------------------------------
