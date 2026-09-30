@@ -1,0 +1,17 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate PHP syntax
+        run: php -l lib/AppInfo/Application.php
+      - name: Validate app metadata
+        run: php -r '$x = simplexml_load_file("appinfo/info.xml"); if ($x === false) { exit(1); }'
+      - name: Check required files
+        run: test -s css/fwerkor.css && test -s img/app.png && test -s README.md && test -s LICENSE

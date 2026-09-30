@@ -1,0 +1,360 @@
+/*
+ * FWERKOR Theme for Nextcloud
+ *
+ * Design goals:
+ * - visually align Nextcloud with FWERKOR web properties
+ * - preserve Nextcloud's native DOM and interaction model
+ * - prefer public CSS custom properties over brittle structural overrides
+ */
+
+/* -------------------------------------------------------------------------
+ * Design tokens mapped onto Nextcloud's native theme variables
+ * ---------------------------------------------------------------------- */
+
+body {
+	--fw-bg: #f8fafd;
+	--fw-surface: #ffffff;
+	--fw-soft: #f1f5f9;
+	--fw-text: #1f1f1f;
+	--fw-muted: #5f6368;
+	--fw-control: #3c4043;
+	--fw-border: #dfe3e8;
+	--fw-border-strong: #c8cdd3;
+	--fw-blue: #0b57d0;
+	--fw-blue-hover: #0842a0;
+	--fw-on-blue: #ffffff;
+	--fw-hover: #eef3f8;
+	--fw-focus: rgba(11, 87, 208, 0.16);
+	--fw-shadow: 0 1px 2px rgba(60, 64, 67, 0.08), 0 2px 8px rgba(60, 64, 67, 0.06);
+	--fw-shadow-raised: 0 8px 28px rgba(60, 64, 67, 0.14);
+
+	--color-main-background: var(--fw-bg);
+	--color-main-background-translucent: rgba(248, 250, 253, 0.92);
+	--color-main-text: var(--fw-text);
+	--color-text: var(--fw-text);
+	--color-text-light: var(--fw-muted);
+	--color-text-maxcontrast: var(--fw-muted);
+	--color-background-hover: var(--fw-hover);
+	--color-background-dark: var(--fw-soft);
+	--color-background-darker: #e7edf3;
+	--color-background-plain: var(--fw-surface);
+	--color-border: var(--fw-border);
+	--color-border-dark: var(--fw-border-strong);
+	--color-border-maxcontrast: var(--fw-border-strong);
+	--color-primary: var(--fw-blue);
+	--color-primary-hover: var(--fw-blue-hover);
+	--color-primary-element: var(--fw-blue);
+	--color-primary-element-hover: var(--fw-blue-hover);
+	--color-primary-element-light: #e8f0fe;
+	--color-primary-element-light-hover: #dce8fb;
+	--color-primary-element-light-text: var(--fw-blue);
+	--color-primary-element-text: var(--fw-on-blue);
+	--color-primary-text: var(--fw-on-blue);
+	--color-box-shadow: rgba(60, 64, 67, 0.16);
+	--color-box-shadow-rgb: 60, 64, 67;
+
+	--border-radius: 8px;
+	--border-radius-small: 6px;
+	--border-radius-element: 8px;
+	--border-radius-container: 10px;
+	--border-radius-container-large: 14px;
+	--border-radius-large: 12px;
+
+	color: var(--fw-text);
+	background: var(--fw-bg);
+	font-family: Inter, Roboto, "Noto Sans SC", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+}
+
+body[data-themes*="dark"] {
+	--fw-bg: #111318;
+	--fw-surface: #1b1f24;
+	--fw-soft: #20252b;
+	--fw-text: #e8eaed;
+	--fw-muted: #9aa0a6;
+	--fw-control: #bdc1c6;
+	--fw-border: #343a40;
+	--fw-border-strong: #48505a;
+	--fw-blue: #8ab4f8;
+	--fw-blue-hover: #aecbfa;
+	--fw-on-blue: #10233f;
+	--fw-hover: #242a31;
+	--fw-focus: rgba(138, 180, 248, 0.22);
+	--fw-shadow: 0 1px 2px rgba(0, 0, 0, 0.38), 0 2px 8px rgba(0, 0, 0, 0.18);
+	--fw-shadow-raised: 0 10px 34px rgba(0, 0, 0, 0.34);
+
+	--color-main-background: var(--fw-bg);
+	--color-main-background-translucent: rgba(17, 19, 24, 0.92);
+	--color-background-darker: #171b20;
+	--color-primary-element-light: #203553;
+	--color-primary-element-light-hover: #29466d;
+	--color-primary-element-light-text: var(--fw-blue);
+	--color-primary-element-text: var(--fw-on-blue);
+	--color-primary-text: var(--fw-on-blue);
+	--color-box-shadow: rgba(0, 0, 0, 0.42);
+	--color-box-shadow-rgb: 0, 0, 0;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+	font-family: Inter, Roboto, "Noto Sans SC", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* -------------------------------------------------------------------------
+ * Global shell
+ * ---------------------------------------------------------------------- */
+
+#header {
+	background: color-mix(in srgb, var(--fw-bg) 92%, transparent);
+	border-bottom: 1px solid var(--fw-border);
+	box-shadow: none;
+	backdrop-filter: blur(18px) saturate(1.15);
+	-webkit-backdrop-filter: blur(18px) saturate(1.15);
+}
+
+#content,
+#content-vue,
+.content,
+.app-content {
+	background: var(--fw-bg);
+}
+
+.app-navigation,
+.app-sidebar,
+.settings-section,
+.settings-section__wrapper,
+.dashboard--content-background {
+	background: var(--fw-surface);
+}
+
+.app-navigation,
+.app-sidebar {
+	border-color: var(--fw-border);
+}
+
+.app-navigation {
+	box-shadow: none;
+}
+
+.app-sidebar {
+	box-shadow: -1px 0 0 var(--fw-border);
+}
+
+/* -------------------------------------------------------------------------
+ * Cards, popovers and dialogs
+ * ---------------------------------------------------------------------- */
+
+[class*="card"],
+.nc-card,
+.settings-section,
+.app-sidebar,
+.popover,
+.popovermenu,
+.menu,
+.header-menu,
+.modal-container,
+.dialog__modal,
+.tooltip {
+	border-color: var(--fw-border);
+}
+
+.nc-card,
+.settings-section,
+.header-menu,
+.popover,
+.popovermenu,
+.menu,
+.modal-container,
+.dialog__modal {
+	background: var(--fw-surface);
+	box-shadow: var(--fw-shadow);
+}
+
+.modal-container,
+.dialog__modal,
+.header-menu,
+.popover,
+.popovermenu,
+.menu {
+	border-radius: 10px;
+}
+
+.settings-section,
+.nc-card {
+	border-radius: 10px;
+}
+
+/* -------------------------------------------------------------------------
+ * Controls
+ * ---------------------------------------------------------------------- */
+
+button,
+.button-vue,
+input,
+textarea,
+select,
+.multiselect__tags,
+.vs__dropdown-toggle {
+	border-radius: 8px;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+textarea,
+select {
+	background-color: var(--fw-surface);
+	border-color: var(--fw-border);
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):focus,
+textarea:focus,
+select:focus {
+	border-color: var(--fw-blue);
+	box-shadow: 0 0 0 2px var(--fw-focus);
+}
+
+.button-vue,
+button {
+	transition: background-color 120ms ease, border-color 120ms ease, box-shadow 120ms ease, color 120ms ease;
+}
+
+.button-vue--vue-primary,
+.button-vue--vue-primary-text,
+.primary,
+input[type="submit"] {
+	font-weight: 600;
+}
+
+a {
+	text-underline-offset: 2px;
+}
+
+/* -------------------------------------------------------------------------
+ * Lists and tables
+ * ---------------------------------------------------------------------- */
+
+.app-navigation-entry,
+.app-navigation-entry-link,
+.list-item,
+.files-list__row,
+tr {
+	border-color: var(--fw-border);
+}
+
+.app-navigation-entry-link:hover,
+.app-navigation-entry-link:focus-visible,
+.list-item:hover,
+.files-list__row:hover {
+	background-color: var(--fw-hover);
+}
+
+thead,
+.files-list__header {
+	background: color-mix(in srgb, var(--fw-soft) 80%, transparent);
+}
+
+/* -------------------------------------------------------------------------
+ * Login / guest pages
+ * ---------------------------------------------------------------------- */
+
+#body-login {
+	background:
+		radial-gradient(circle at 12% 14%, color-mix(in srgb, var(--fw-blue) 15%, transparent), transparent 34rem),
+		radial-gradient(circle at 88% 86%, color-mix(in srgb, #6f42c1 10%, transparent), transparent 36rem),
+		var(--fw-bg) !important;
+	color: var(--fw-text);
+}
+
+#body-login::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	background-image:
+		linear-gradient(color-mix(in srgb, var(--fw-border) 38%, transparent) 1px, transparent 1px),
+		linear-gradient(90deg, color-mix(in srgb, var(--fw-border) 38%, transparent) 1px, transparent 1px);
+	background-size: 42px 42px;
+	mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), transparent 62%);
+	opacity: 0.42;
+}
+
+#body-login .wrapper {
+	position: relative;
+	z-index: 1;
+}
+
+#body-login #header.header-guest {
+	background: transparent;
+	border: 0;
+	backdrop-filter: none;
+	-webkit-backdrop-filter: none;
+}
+
+#body-login .guest-content {
+	background: var(--fw-surface);
+	border: 1px solid var(--fw-border);
+	border-radius: 14px;
+	box-shadow: var(--fw-shadow-raised);
+	padding: clamp(24px, 4vw, 38px);
+}
+
+#body-login .guest-content,
+#body-login .guest-box {
+	color: var(--fw-text);
+}
+
+#body-login .guest-box {
+	position: relative;
+	z-index: 1;
+	background: transparent;
+	text-shadow: none;
+}
+
+#body-login .guest-box .info,
+#body-login .guest-box .info a {
+	color: var(--fw-muted);
+}
+
+#body-login .guest-box .info a:hover {
+	color: var(--fw-blue);
+}
+
+#body-login .alternative-logins a,
+#body-login .alternative-logins .button,
+#body-login .alternative-login,
+#body-login .auctor-sso-login {
+	border-radius: 8px;
+	font-weight: 600;
+}
+
+/* -------------------------------------------------------------------------
+ * Accessibility and motion
+ * ---------------------------------------------------------------------- */
+
+:focus-visible {
+	outline-color: var(--fw-blue);
+}
+
+@media (max-width: 768px) {
+	#body-login .guest-content {
+		border-radius: 12px;
+		padding: 22px;
+	}
+
+	.app-sidebar {
+		box-shadow: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}
