@@ -294,6 +294,8 @@ thead,
 }
 
 #body-login .guest-content {
+	width: min(440px, calc(100vw - 28px));
+	margin-inline: auto;
 	background: var(--fw-surface);
 	border: 1px solid var(--fw-border);
 	border-radius: 14px;
